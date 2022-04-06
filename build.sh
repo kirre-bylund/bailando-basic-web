@@ -18,4 +18,4 @@ make -C ./build
 echo
 echo
 echo "<<<< Running executable >>>>"
-./build/bailando-cmake-base
+./build/bailando-basic-web

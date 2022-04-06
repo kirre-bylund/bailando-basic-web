@@ -8,12 +8,14 @@ project(
 
 message(STATUS "Starting build of ${PROJECT_NAME}")
 
+#Requires installing libssl-dev
+#Requires installing libcurl4-gnutls-dev
 add_executable(${PROJECT_NAME} src/main.cpp)
 
-add_subdirectory(lib)
+add_subdirectory(dependencies)
 
-target_link_libraries(${PROJECT_NAME}
-    PRIVATE basic_include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(${PROJECT_NAME} PRIVATE curl nlohmann_json::nlohmann_json)
 
 #Use c++ 20
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
