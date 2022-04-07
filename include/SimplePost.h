@@ -22,11 +22,14 @@ class SimplePost {
                 return SimpleResult<JSONCompatibleType>(-1);
             }
 
-            headers = curl_slist_append(headers, "Accepts: application/json");
+            headers = curl_slist_append(headers, "Accept: application/json");
             headers = curl_slist_append(headers, "Content-Type: application/json");
+            //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
             curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postData.dump().c_str());
+            curl_easy_setopt(curl, CURLOPT_POST, 1);
+            const std::string postDataString = postData.dump();
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postDataString.c_str());
             curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
             curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 50L);
             curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 1L);
@@ -43,9 +46,9 @@ class SimplePost {
 
             res = curl_easy_perform(curl);
 
-            //std::cout << "result: " << res << std::endl;
-            //std::cout << "responseString: " << responseString << std::endl;
-            //std::cout << "headerString: " << headerString << std::endl;
+            /*std::cout << "result: " << res << std::endl;
+            std::cout << "responseString: " << responseString << std::endl;
+            std::cout << "headerString: " << headerString << std::endl;*/
 
             if(res != CURLE_OK) {
                 return SimpleResult<JSONCompatibleType>(res);
@@ -53,6 +56,7 @@ class SimplePost {
 
             curl_slist_free_all(headers);
             curl_easy_cleanup(curl);
+            
             return SimpleResult<JSONCompatibleType>(res, JSONCompatibleType(nlohmann::json::parse(responseString)));
         };
 };
