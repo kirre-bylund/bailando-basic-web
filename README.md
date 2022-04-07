@@ -6,6 +6,8 @@ My library for basic c++ web functionality
 * CMake > v3.11 - The project is set up using CMake, so that is required to used the build structure provided.
 * Make
 * Suitable C++ compiler - gcc, clang or MSVC depending on your system.
+* libssl-dev
+* libcurl4-gnutls-dev
 
 ### How to build?
 There is a build script provided that should work on any linux machine with the prerequisites in place: `build.sh`. It will remove the build folder, build the project binary, and then run it.
@@ -15,7 +17,7 @@ If that does not work for you, do the following (command line):
 2. Run the command `cmake -S . -B build/`. Watch the build output (if it fails, please contact me).
 3. cd into the build folder
 4. Run the command `make`. Watch the build output (if it fails, please contact me).
-5. You should now have a binary of the appropriate os type named bailando-cmake-base.
+5. You should now have a binary of the appropriate os type named bailando-basic-web.
 
 If that does not work for you and you do not have a command line (troubleshooting).
 * You can use the CMake GUI if you feel more comfortable there. In it you could make it create an IDE project for you to open (for example Visual Studio or XCode). Then you can use that to build. I have not created the project structure to do this so it might require some additional steps to work.
@@ -28,6 +30,7 @@ If that does not work for you and you do not have a command line (troubleshootin
 ```
 
 ### How to run?
+By default, this is built as a library and as such has no executable. There is a couple of lines in the top CMakeLists.txt to build the main.cpp test executable. If you uncomment those and comment out the relevant library lines, then:
 Simply run the executable `build/bailando-basic-web(.exe)` using a command line. The output will be written to std::out.
 
 ## Project Structure
@@ -36,6 +39,7 @@ Simply run the executable `build/bailando-basic-web(.exe)` using a command line.
 * build.sh - A build script to make building into a one line command, mainly for me during development.
 * src - source file for project
 * lib - folder for any included libraries.
+* dependencies - dependencies pulled in from other projects
 
 ### Code
 The code is structured into an include folder (inc) containing all the header files and a source folder (src) containing all the source files.
