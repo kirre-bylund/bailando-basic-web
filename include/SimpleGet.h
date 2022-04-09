@@ -11,7 +11,7 @@ class SimpleGet {
         SimpleGet() = delete;
 
         template <class JSONCompatibleType>
-        static SimpleResult<JSONCompatibleType> get(const std::string& url) {
+        static SimpleResult<JSONCompatibleType> get(const std::string& url, const std::string& sessionToken = "") {
             CURL *curl;
             CURLcode res;
             struct curl_slist *headers = NULL;
@@ -24,6 +24,9 @@ class SimpleGet {
 
 
             headers = curl_slist_append(headers, "Accepts: application/json");
+            std::string sessionTokenHeader = "X-Session-Token: " + sessionToken;
+            headers = curl_slist_append(headers, sessionTokenHeader.c_str());
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
             curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
             curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 50L);
